@@ -1119,7 +1119,7 @@ export default function App() {
       {/* Main Feed Content */}
       <motion.main 
         animate={{ marginLeft: sidebarExpanded ? 260 : 80 }}
-        className="flex-1 max-w-4xl mx-auto border-x border-border-subtle min-h-screen relative z-30 transition-all"
+        className="flex-1 border-r border-border-subtle min-h-screen relative z-30 transition-all"
       >
         {/* Floating Action Button */}
         <AnimatePresence>
