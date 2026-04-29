@@ -1,0 +1,6 @@
+{
+  "name": "Beautiful Mastodon",
+  "description": "A minimal, professional, full-stack Mastodon client with dynamic instance support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
