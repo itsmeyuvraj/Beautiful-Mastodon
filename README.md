@@ -2,8 +2,7 @@
 
 A minimal, high-performance, and aesthetically polished Mastodon client built for the modern web. Experience the Fediverse with a focus on speed, clarity, and beautiful design.
 
-**Live Demo:** [https://ais-pre-dpkruyjd4w474s5jpribkt-588989342828.asia-southeast1.run.app](https://ais-pre-dpkruyjd4w474s5jpribkt-588989342828.asia-southeast1.run.app)
-
+**Live Demo:** https://aistudio.google.com/apps/1103db87-ea4a-4eb2-bbfe-e0f2cea2deca?fullscreenApplet=true&showPreview=true&showAssistant=true
 ## ✨ Features
 
 - **Seamless Interactions:** Optimistic updates for hearts (favourites), boosts (reblogs), and bookmarks—actions happen instantly in the UI while syncing in the background.
