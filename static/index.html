@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Beautiful Mastodon - High-performance federated Fediverse client powered by WebAssembly & Rust." />
+    <meta name="theme-color" content="#7dd3fc" />
+    <title>Beautiful Mastodon • WebAssembly Fediverse Client</title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="https://img.icons8.com/isometric/192/cloud-lighting.png" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="module">
+      import init, { start_app } from '/pkg/mastodon_wasm.js';
+
+      async function boot() {
+        try {
+          await init();
+          start_app();
+        } catch (err) {
+          console.error('Failed to initialize WebAssembly core:', err);
+          document.getElementById('root').innerHTML = `
+            <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#f43f5e;font-family:sans-serif;padding:2rem;text-align:center;">
+              <h2 style="font-size:1.5rem;margin-bottom:0.5rem;">WebAssembly Initialization Error</h2>
+              <p style="color:#94a3b8;font-family:monospace;max-width:500px;">${err}</p>
+            </div>
+          `;
+        }
+      }
+
+      boot();
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>

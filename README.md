@@ -1,39 +1,85 @@
-# Beautiful Federated Client
+# Beautiful Federated Client (WebAssembly Edition) ⚡️🦀
 
-A minimal, high-performance, and aesthetically polished Mastodon client built for the modern web. Experience the Fediverse with a focus on speed, clarity, and beautiful design.
+A minimal, high-performance, and aesthetically polished Mastodon client rewritten completely with **Rust and WebAssembly (Wasm)**. Experience the Fediverse with blazing-fast native speed, minimal memory overhead, and a glassmorphic design system.
 
-**Live Demo:** https://aistudio.google.com/apps/1103db87-ea4a-4eb2-bbfe-e0f2cea2deca?fullscreenApplet=true&showPreview=true&showAssistant=true
-## ✨ Features
+## 🚀 Technical Architecture
 
-- **Seamless Interactions:** Optimistic updates for hearts (favourites), boosts (reblogs), and bookmarks—actions happen instantly in the UI while syncing in the background.
-- **PWA Ready:** Install the app directly on your Android, iOS, or Desktop device for a native-like experience.
-- **Glassmorphic UI:** A beautiful, responsive interface featuring modern typography (Space Grotesk & Inter) and smooth motion-driven transitions.
-- **Multi-Timeline Support:** Easily switch between Home, Trending, Local, and Federated timelines.
-- **Rich Content Rendering:** Links and hashtags are intelligently colour-coded for better readability.
-- **Real-time Notifications:** Stay updated with a dedicated, organized notifications feed.
-- **Full Profile Management:** View details, edit your profile, and explore instance-specific settings.
-- **Instance Agnostic:** Connect to any Mastodon instance of your choice.
-
-## 🚀 Technical Stack
-
-- **Frontend:** React 18+ with Vite
-- **Styling:** Tailwind CSS (v4)
-- **Animations:** Motion (formerly Framer Motion)
-- **Icons:** Lucide React
-- **Backend:** Express (Node.js) proxy for secure Mastodon API communication
-- **State Management:** React Hooks with optimized re-renders
-
-## 📱 Mobile Installation (Android & iOS)
-
-### Android (Chrome)
-1. Open the [Live Link](https://ais-pre-dpkruyjd4w474s5jpribkt-588989342828.asia-southeast1.run.app) in Chrome.
-2. Tap the **three dots** in the top right corner.
-3. Select **"Install app"** or **"Add to Home screen"**.
-
-### iOS (Safari)
-1. Open the link in Safari.
-2. Tap the **Share** button (square with an up arrow).
-3. Scroll down and select **"Add to Home Screen"**.
+- **Frontend Core:** Pure Rust compiled to **WebAssembly** (`wasm32-unknown-unknown`) via `wasm-bindgen`
+- **Frontend UI Engine:** Reactive DOM manipulation, optimistic state transitions, and asynchronous Mastodon API bindings in Rust (`crates/mastodon-wasm`)
+- **Backend Proxy & Server:** High-performance async Rust server using **Axum** & **Tokio** (`crates/mastodon-server`), handling dynamic OAuth registration, multi-instance token exchanges, HTTP-only cookie sessions, multipart media uploads, and static asset delivery
+- **Styling:** Custom Glassmorphic Design System with Dark/Light theme switching, Outfit & Inter typography, and micro-interactions
+- **PWA & Offline:** Progressive Web App with manifest and service worker support
 
 ---
-*Built with passion for the decentralized web.*
+
+## ✨ Features
+
+- **Full WebAssembly Execution:** Client logic, state management, Mastodon data parsing, and timeline filtering run in compiled WebAssembly.
+- **Seamless Optimistic Updates:** Liking (favourites), boosting (reblogs), and bookmarking apply instantly in the WebAssembly state store while syncing in the background with automatic rollback on network failure.
+- **Multi-Instance Support:** Connect to any Mastodon instance (e.g. `mastodon.social`, `fosstodon.org`, `techhub.social`).
+- **Multi-Account Switching:** Store multiple authenticated accounts with instant hot-swapping from the sidebar.
+- **Rich Timelines:** Home, Trending, Local, and Federated feeds with country & language filtering.
+- **Conversation Threading:** Full ancestor and descendant reply tree view.
+- **Composer with Media:** Publish toots, reply to threads, and attach media.
+- **Search:** Instant query search for accounts, posts, and hashtags.
+- **Theme Support:** Dark, Light, and System default appearance modes with smooth transitions.
+
+---
+
+## 🛠️ Workspace Structure
+
+```
+├── Cargo.toml                    # Workspace configuration
+├── crates/
+│   ├── mastodon-wasm/            # Frontend WebAssembly crate (wasm32-unknown-unknown)
+│   │   ├── Cargo.toml
+│   │   └── src/
+│   │       ├── lib.rs            # App entrypoint, state lifecycle & events
+│   │       ├── api.rs            # Async Fetch API bindings for Mastodon
+│   │       ├── models.rs         # Strongly typed Serde models
+│   │       ├── state.rs          # Reactive state store
+│   │       └── ui.rs             # Glassmorphic component & HTML renderers
+│   └── mastodon-server/          # Backend Axum proxy server
+│       ├── Cargo.toml
+│       └── src/
+│           └── main.rs           # OAuth handlers, proxy routes & static file server
+├── static/                       # Web static assets
+│   ├── index.html                # HTML host with WebAssembly loader
+│   ├── style.css                 # Glassmorphic CSS design system
+│   └── pkg/                      # Generated .wasm binary & JS wrapper
+└── scripts/
+    ├── build.sh                  # Build script for Wasm and server
+    └── dev.sh                    # Development launcher script
+```
+
+---
+
+## 📦 Building and Running
+
+### Prerequisites
+- [Rust & Cargo](https://rustup.rs/) (installed)
+- `wasm32-unknown-unknown` target:
+  ```bash
+  rustup target add wasm32-unknown-unknown
+  ```
+- `wasm-bindgen-cli` (v0.2.100):
+  ```bash
+  cargo install wasm-bindgen-cli --version 0.2.100
+  ```
+
+### Build the Project
+Compile the WebAssembly client and the Axum backend:
+```bash
+./scripts/build.sh
+```
+
+### Start the Server
+Launch the server on port 3000:
+```bash
+./scripts/dev.sh
+```
+Or directly:
+```bash
+./target/release/mastodon-server
+```
+Then open `http://localhost:3000` in your browser.

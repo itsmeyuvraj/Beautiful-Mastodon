@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "crates/mastodon-wasm",
+    "crates/mastodon-server",
+]
+resolver = "2"
